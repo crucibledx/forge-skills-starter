@@ -6,11 +6,11 @@
 
 **Platform Flow** — the development lifecycle:
 
-![Platform Flow](platform-flow.drawio.png)
+![Platform Flow](diagrams/platform-flow.drawio.png)
 
 **Convention Map** — repository structure, shared vs platform:
 
-![Convention Map](convention-map.drawio.png)
+![Convention Map](diagrams/convention-map.drawio.png)
 
 ---
 

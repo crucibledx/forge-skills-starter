@@ -8,7 +8,7 @@ A **development and testing platform** for AI agent skills, rules, and workflows
 
 Two commands, one flow:
 
-![Platform Flow](docs/platform-flow.drawio.png)
+![Platform Flow](docs/diagrams/platform-flow.drawio.png)
 
 | What       | Convention                                 | Discovered by                          |
 |------------|--------------------------------------------|----------------------------------------|
@@ -102,11 +102,12 @@ forge-skills-starter/
 ├── workflows/                      # Shared workflows (delivered to team repos)
 │   └── document-project.md        # Full documentation workflow
 ├── docs/                           # Platform docs (NOT delivered)
+│   ├── diagrams/                  # Source .drawio + exported .drawio.png
 │   ├── platform-design.md         # Architecture & conventions
-│   ├── skill-spec.md             # Skill format specification
-│   └── *.drawio.png              # Platform diagrams
+│   └── skill-spec.md             # Skill format specification
 ├── scripts/                        # Test automation (NOT delivered)
-│   └── list_specimens.py
+│   ├── list_specimens.py
+│   └── export_diagrams.sh        # Export all .drawio → .drawio.png
 ├── .claude/                        # Claude Code meta-skills (NOT delivered)
 │   └── skills/
 │       ├── develop-skill/         # Skill development lifecycle
