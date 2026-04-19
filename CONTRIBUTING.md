@@ -64,7 +64,7 @@ git push origin feature/my-change
 
 - Delete or weaken existing skill steps without explicit permission
 - Change specimen branches on `main` (specimens live on orphan branches)
-- Modify `.claude/commands/` without asking
+- Modify `.claude/skills/` without asking
 - Auto-run destructive git commands (force push, delete branches)
 
 ## Repository Structure
@@ -76,13 +76,13 @@ forge-skills-starter/
 ├── workflows/                  # Shared workflows
 ├── docs/                       # Design docs, guides, diagrams
 ├── scripts/                    # Test automation
-├── .claude/commands/           # Claude Code meta-skills (platform-only)
+├── .claude/skills/           # Claude Code meta-skills (platform-only)
 ├── CONTRIBUTING.md             # This file
 ├── CHANGELOG.md
 └── README.md
 ```
 
-> **`.claude/commands/`** contains meta-skills specific to this repository
+> **`.claude/skills/`** contains meta-skills specific to this repository
 > (e.g. `/develop-skill`, `/test-skill`). They should **not** be copied to other projects.
 > Shared skills live in `skills/` and are delivered by Forge.
 
@@ -146,18 +146,18 @@ forge init
 forge sync
 ```
 
-> **Important:** Use `canonical` layout when adding this repo as a source. The repo also contains `.claude/commands/` for platform meta-skills that should not be delivered to consumer repos.
+> **Important:** Use `canonical` layout when adding this repo as a source. The repo also contains `.claude/skills/` for platform meta-skills that should not be delivered to consumer repos.
 
 ### What gets delivered vs. what stays
 
-| Directory           | Delivered?                 | Reason                   |
-|---------------------|----------------------------|--------------------------|
-| `skills/`           | Yes                        | Shared skill definitions |
-| `rules/`            | Yes                        | Shared context rules     |
-| `workflows/`        | Yes                        | Shared workflows         |
-| `.claude/commands/` | No (with canonical layout) | Platform meta-skills     |
-| `docs/`             | No                         | Design docs, guides      |
-| `scripts/`          | No                         | Test automation          |
+| Directory         | Delivered?                 | Reason                   |
+|-------------------|----------------------------|--------------------------|
+| `skills/`         | Yes                        | Shared skill definitions |
+| `rules/`          | Yes                        | Shared context rules     |
+| `workflows/`      | Yes                        | Shared workflows         |
+| `.claude/skills/` | No (with canonical layout) | Platform meta-skills     |
+| `docs/`           | No                         | Design docs, guides      |
+| `scripts/`        | No                         | Test automation          |
 
 ## Code Style
 

@@ -57,7 +57,7 @@ forge sync
 
 Forge auto-detects the canonical layout in this repo, maps each skill/rule/workflow to the right path for each AI tool, and handles format transforms (e.g. `.md` → `.mdc` for Cursor).
 
-> **Layout note:** This repo uses **canonical** layout (`skills/`, `rules/`, `workflows/`). When adding this as a Forge source, use layout override `canonical` to avoid syncing platform meta-skills from `.claude/commands/`. The meta-skills (`/develop-skill`, `/test-skill`) are for this repo's own
+> **Layout note:** This repo uses **canonical** layout (`skills/`, `rules/`, `workflows/`). When adding this as a Forge source, use layout override `canonical` to avoid syncing platform meta-skills from `.claude/skills/`. The meta-skills (`/develop-skill`, `/test-skill`) are for this repo's own
 > development, not for delivery.
 >
 > ```bash
@@ -65,7 +65,7 @@ Forge auto-detects the canonical layout in this repo, maps each skill/rule/workf
 > # → Layout: canonical (not auto)
 > ```
 >
-> If you use `pre-structured` layout, Forge would also sync the `.claude/commands/` directory, which contains this repo's development tools — not the shared skills.
+> If you use `pre-structured` layout, Forge would also sync the `.claude/skills/` directory, which contains this repo's development tools — not the shared skills.
 
 To keep skills up to date:
 
@@ -108,9 +108,9 @@ forge-skills-starter/
 ├── scripts/                        # Test automation (NOT delivered)
 │   └── list_specimens.py
 ├── .claude/                        # Claude Code meta-skills (NOT delivered)
-│   └── commands/
-│       ├── develop-skill.md       # Skill development lifecycle
-│       └── test-skill.md          # Skill testing against specimens
+│   └── skills/
+│       ├── develop-skill/         # Skill development lifecycle
+│       └── test-skill/            # Skill testing against specimens
 ├── CLAUDE.md                       # Project instructions
 ├── CHANGELOG.md
 └── CONTRIBUTING.md

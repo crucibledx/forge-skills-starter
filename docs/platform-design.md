@@ -73,18 +73,18 @@ IDEA  ──→  /develop-skill  ──→  /test-skill  ──→  version bump
 
 ### Key distinction
 
-| Location            | Delivered to consumer repos? | Purpose                              |
-|---------------------|------------------------------|--------------------------------------|
-| `skills/`           | Yes (canonical)              | Executable skill definitions         |
-| `rules/`            | Yes (canonical)              | Shared context rules                 |
-| `workflows/`        | Yes (canonical)              | Shared workflows                     |
-| `.claude/commands/` | No                           | Platform meta-skills (develop, test) |
-| `scripts/`          | No                           | Test automation                      |
-| `docs/`             | No                           | Design docs, guides                  |
+| Location          | Delivered to consumer repos? | Purpose                              |
+|-------------------|------------------------------|--------------------------------------|
+| `skills/`         | Yes (canonical)              | Executable skill definitions         |
+| `rules/`          | Yes (canonical)              | Shared context rules                 |
+| `workflows/`      | Yes (canonical)              | Shared workflows                     |
+| `.claude/skills/` | No                           | Platform meta-skills (develop, test) |
+| `scripts/`        | No                           | Test automation                      |
+| `docs/`           | No                           | Design docs, guides                  |
 
 ### Forge layout strategy
 
-This repo uses **canonical layout** for shared content (`skills/`, `rules/`, `workflows/`). The platform meta-skills live in `.claude/commands/` which is a **pre-structured** path.
+This repo uses **canonical layout** for shared content (`skills/`, `rules/`, `workflows/`). The platform meta-skills live in `.claude/skills/` which is a **pre-structured** path.
 
 When consumers add this repo as a Forge source, they should use `canonical` layout override:
 
@@ -93,9 +93,9 @@ forge source add
 # → Layout: canonical
 ```
 
-This ensures only `skills/`, `rules/`, and `workflows/` are synced. The `.claude/commands/` meta-skills stay local to this repo.
+This ensures only `skills/`, `rules/`, and `workflows/` are synced. The `.claude/skills/` meta-skills stay local to this repo.
 
-If `auto` layout is used, Forge may detect the repo as `hybrid` and attempt to sync `.claude/commands/` as well — which would deliver the development tools instead of just the shared skills.
+If `auto` layout is used, Forge may detect the repo as `hybrid` and attempt to sync `.claude/skills/` as well — which would deliver the development tools instead of just the shared skills.
 
 ---
 

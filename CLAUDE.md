@@ -20,7 +20,7 @@ Put a file in the right place → the platform discovers it.
 ## Shared vs Platform
 
 - **Shared** (`skills/`, `rules/`, `workflows/`) — delivered to consumer repos via Forge
-- **Platform** (`.claude/commands/`, `docs/`, `scripts/`) — stays in this repo, powers development & testing
+- **Platform** (`.claude/skills/`, `docs/`, `scripts/`) — stays in this repo, powers development & testing
 
 ## Key commands
 
