@@ -24,24 +24,24 @@ Inspired by Rails and modern monorepo tooling (Nx, Turborepo) — the directory 
 
 ### The Convention Table
 
-| What | Convention | Auto-discovered by |
-|------|------------|-------------------|
-| Skill | `skills/<name>/SKILL.md` | `/develop-skill`, `/test-skill`, Forge |
-| Skill docs | `skills/<name>/README.md` | Developers browsing the repo |
-| Rule | `rules/<name>.md` | Forge delivery tools |
-| Workflow | `workflows/<name>.md` | Forge delivery tools |
-| Specimen | orphan branch `specimen/<lang>/<fw>` | `/test-skill`, `list_specimens.py` |
-| Delta | branch `specimen/<lang>/<fw>-delta-<name>` | `/test-skill`, `list_specimens.py` |
+| What       | Convention                                 | Auto-discovered by                     |
+|------------|--------------------------------------------|----------------------------------------|
+| Skill      | `skills/<name>/SKILL.md`                   | `/develop-skill`, `/test-skill`, Forge |
+| Skill docs | `skills/<name>/README.md`                  | Developers browsing the repo           |
+| Rule       | `rules/<name>.md`                          | Forge delivery tools                   |
+| Workflow   | `workflows/<name>.md`                      | Forge delivery tools                   |
+| Specimen   | orphan branch `specimen/<lang>/<fw>`       | `/test-skill`, `list_specimens.py`     |
+| Delta      | branch `specimen/<lang>/<fw>-delta-<name>` | `/test-skill`, `list_specimens.py`     |
 
 **That's the entire backbone.** Every new feature = a new file in the right place.
 
 ### Why Convention over Configuration?
 
-| Need | How CoC solves it |
-|------|-------------------|
-| **Scaling** | New skill = new folder. No platform changes ever. |
-| **Onboarding** | Learn the table above. That's it. |
-| **Speed** | No boilerplate, no config files, no registration |
+| Need            | How CoC solves it                                      |
+|-----------------|--------------------------------------------------------|
+| **Scaling**     | New skill = new folder. No platform changes ever.      |
+| **Onboarding**  | Learn the table above. That's it.                      |
+| **Speed**       | No boilerplate, no config files, no registration       |
 | **Consistency** | Same structure for every skill, enforced by convention |
 
 ---
@@ -73,14 +73,14 @@ IDEA  ──→  /develop-skill  ──→  /test-skill  ──→  version bump
 
 ### Key distinction
 
-| Location | Delivered to consumer repos? | Purpose |
-|----------|------------------------------|---------|
-| `skills/` | Yes (canonical) | Executable skill definitions |
-| `rules/` | Yes (canonical) | Shared context rules |
-| `workflows/` | Yes (canonical) | Shared workflows |
-| `.claude/commands/` | No | Platform meta-skills (develop, test) |
-| `scripts/` | No | Test automation |
-| `docs/` | No | Design docs, guides |
+| Location            | Delivered to consumer repos? | Purpose                              |
+|---------------------|------------------------------|--------------------------------------|
+| `skills/`           | Yes (canonical)              | Executable skill definitions         |
+| `rules/`            | Yes (canonical)              | Shared context rules                 |
+| `workflows/`        | Yes (canonical)              | Shared workflows                     |
+| `.claude/commands/` | No                           | Platform meta-skills (develop, test) |
+| `scripts/`          | No                           | Test automation                      |
+| `docs/`             | No                           | Design docs, guides                  |
 
 ### Forge layout strategy
 
@@ -114,32 +114,32 @@ If `auto` layout is used, Forge may detect the repo as `hybrid` and attempt to s
 
 ### DESIGN → `skills/<skill-name>/README.md`
 
-| Artifact | Purpose |
-|----------|---------|
+| Artifact    | Purpose                                                  |
+|-------------|----------------------------------------------------------|
 | `README.md` | Purpose, scope, input/output contracts, design decisions |
 
 ### BUILD → `skills/<skill-name>/SKILL.md`
 
-| Artifact | Purpose |
-|----------|---------|
+| Artifact   | Purpose                                |
+|------------|----------------------------------------|
 | `SKILL.md` | Executable skill (frontmatter + steps) |
 
 ### TEST
 
-| Action | Mechanism |
-|--------|-----------|
+| Action         | Mechanism                                          |
+|----------------|----------------------------------------------------|
 | Merge specimen | `/test-skill` creates test branch, merges specimen |
-| Run skill | `/test-skill` invokes the skill |
-| Report | Test results documented |
-| Iterate | Fix skill → re-test until clean |
+| Run skill      | `/test-skill` invokes the skill                    |
+| Report         | Test results documented                            |
+| Iterate        | Fix skill → re-test until clean                    |
 
 ### RELEASE
 
-| Action | Mechanism |
-|--------|-----------|
+| Action       | Mechanism                          |
+|--------------|------------------------------------|
 | Version bump | Skill frontmatter `version:` field |
-| Changelog | Platform `CHANGELOG.md` |
-| Tag | `git tag -a v<x.y.z>` |
+| Changelog    | Platform `CHANGELOG.md`            |
+| Tag          | `git tag -a v<x.y.z>`              |
 
 ---
 
@@ -149,10 +149,10 @@ Specimens are **real project snapshots** on orphan branches. Any skill that oper
 
 ### Current specimens
 
-| Specimen | Description |
-|----------|-------------|
-| `specimen/python/fastapi` | FastAPI REST API service |
-| `specimen/ts/express` | Express.js TypeScript REST API |
+| Specimen                  | Description                    |
+|---------------------------|--------------------------------|
+| `specimen/python/fastapi` | FastAPI REST API service       |
+| `specimen/ts/express`     | Express.js TypeScript REST API |
 
 Delta branches add targeted changes for testing specific skill behavior.
 

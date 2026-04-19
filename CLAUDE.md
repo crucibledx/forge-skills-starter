@@ -6,14 +6,14 @@ This is a reference AI skills repository — a development and testing platform 
 
 **Convention over Configuration** — the directory structure IS the API.
 
-| What | Convention | Auto-discovered by |
-|------|------------|-------------------|
-| Skill | `skills/<name>/SKILL.md` | `/develop-skill`, `/test-skill`, Forge |
-| Skill docs | `skills/<name>/README.md` | Developers browsing the repo |
-| Rule | `rules/<name>.md` | Forge delivery |
-| Workflow | `workflows/<name>.md` | Forge delivery |
-| Specimen | orphan branch `specimen/<lang>/<fw>` | `/test-skill`, `scripts/list_specimens.py` |
-| Delta | branch `specimen/<lang>/<fw>-delta-<name>` | `/test-skill` |
+| What       | Convention                                 | Auto-discovered by                         |
+|------------|--------------------------------------------|--------------------------------------------|
+| Skill      | `skills/<name>/SKILL.md`                   | `/develop-skill`, `/test-skill`, Forge     |
+| Skill docs | `skills/<name>/README.md`                  | Developers browsing the repo               |
+| Rule       | `rules/<name>.md`                          | Forge delivery                             |
+| Workflow   | `workflows/<name>.md`                      | Forge delivery                             |
+| Specimen   | orphan branch `specimen/<lang>/<fw>`       | `/test-skill`, `scripts/list_specimens.py` |
+| Delta      | branch `specimen/<lang>/<fw>-delta-<name>` | `/test-skill`                              |
 
 Put a file in the right place → the platform discovers it.
 

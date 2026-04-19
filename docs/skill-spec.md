@@ -26,10 +26,10 @@ description: One-line description of the skill
 version: 1.0.0
 type: orchestrator           # orchestrator | sub-skill | utility
 language: "*"                # "*" (any), "python", "typescript", etc.
-requires:                    # Skills this skill delegates to (optional)
+requires: # Skills this skill delegates to (optional)
   - /detect-stack
-test:                        # Testing metadata (optional, used by /test-skill)
-  specimens:                 # Compatible specimens
+test: # Testing metadata (optional, used by /test-skill)
+  specimens: # Compatible specimens
     - specimen/python/fastapi
     - specimen/ts/express
 ---
@@ -37,35 +37,35 @@ test:                        # Testing metadata (optional, used by /test-skill)
 
 ### Required fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `description` | string | One-line summary |
-| `version` | string | Semantic version (`MAJOR.MINOR.PATCH`) |
-| `type` | enum | `orchestrator`, `sub-skill`, or `utility` |
+| Field         | Type   | Description                               |
+|---------------|--------|-------------------------------------------|
+| `description` | string | One-line summary                          |
+| `version`     | string | Semantic version (`MAJOR.MINOR.PATCH`)    |
+| `type`        | enum   | `orchestrator`, `sub-skill`, or `utility` |
 
 ### Optional fields
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | string | `"*"` | Language scope (`"*"` = any) |
-| `requires` | string[] | `[]` | Skills this skill calls |
-| `test` | object | — | Testing metadata, read by `/test-skill` |
+| Field      | Type     | Default | Description                             |
+|------------|----------|---------|-----------------------------------------|
+| `language` | string   | `"*"`   | Language scope (`"*"` = any)            |
+| `requires` | string[] | `[]`    | Skills this skill calls                 |
+| `test`     | object   | —       | Testing metadata, read by `/test-skill` |
 
 ### Test metadata fields
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `test.specimens` | string[] | all | Compatible specimens |
+| Field            | Type     | Default | Description          |
+|------------------|----------|---------|----------------------|
+| `test.specimens` | string[] | all     | Compatible specimens |
 
 ## Version Semantics
 
 Each skill has its own version in frontmatter:
 
-| Bump | When | Example |
-|------|------|---------|
-| **MAJOR** | Breaking change to the skill's contract | Changed report format |
-| **MINOR** | New capability, backward compatible | Added monorepo support |
-| **PATCH** | Bug fix, wording improvement | Fixed detection logic |
+| Bump      | When                                    | Example                |
+|-----------|-----------------------------------------|------------------------|
+| **MAJOR** | Breaking change to the skill's contract | Changed report format  |
+| **MINOR** | New capability, backward compatible     | Added monorepo support |
+| **PATCH** | Bug fix, wording improvement            | Fixed detection logic  |
 
 ## Skill Types
 

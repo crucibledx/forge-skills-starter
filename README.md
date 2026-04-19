@@ -10,14 +10,14 @@ Two commands, one flow:
 
 ![Platform Flow](docs/platform-flow.drawio.png)
 
-| What | Convention | Discovered by |
-|------|------------|---------------|
-| Skill | `skills/<name>/SKILL.md` | `/develop-skill`, `/test-skill`, Forge |
-| Skill docs | `skills/<name>/README.md` | Developers browsing the repo |
-| Rule | `rules/<name>.md` | Forge delivery tools |
-| Workflow | `workflows/<name>.md` | Forge delivery tools |
-| Specimen | orphan branch `specimen/<lang>/<fw>` | `/test-skill`, `list_specimens.py` |
-| Delta | branch `specimen/<lang>/<fw>-delta-<name>` | `/test-skill` |
+| What       | Convention                                 | Discovered by                          |
+|------------|--------------------------------------------|----------------------------------------|
+| Skill      | `skills/<name>/SKILL.md`                   | `/develop-skill`, `/test-skill`, Forge |
+| Skill docs | `skills/<name>/README.md`                  | Developers browsing the repo           |
+| Rule       | `rules/<name>.md`                          | Forge delivery tools                   |
+| Workflow   | `workflows/<name>.md`                      | Forge delivery tools                   |
+| Specimen   | orphan branch `specimen/<lang>/<fw>`       | `/test-skill`, `list_specimens.py`     |
+| Delta      | branch `specimen/<lang>/<fw>-delta-<name>` | `/test-skill`                          |
 
 Put a file in the right place → the platform discovers it. No config, no registration.
 
@@ -57,7 +57,8 @@ forge sync
 
 Forge auto-detects the canonical layout in this repo, maps each skill/rule/workflow to the right path for each AI tool, and handles format transforms (e.g. `.md` → `.mdc` for Cursor).
 
-> **Layout note:** This repo uses **canonical** layout (`skills/`, `rules/`, `workflows/`). When adding this as a Forge source, use layout override `canonical` to avoid syncing platform meta-skills from `.claude/commands/`. The meta-skills (`/develop-skill`, `/test-skill`) are for this repo's own development, not for delivery.
+> **Layout note:** This repo uses **canonical** layout (`skills/`, `rules/`, `workflows/`). When adding this as a Forge source, use layout override `canonical` to avoid syncing platform meta-skills from `.claude/commands/`. The meta-skills (`/develop-skill`, `/test-skill`) are for this repo's own
+> development, not for delivery.
 >
 > ```bash
 > forge source add
@@ -120,25 +121,25 @@ forge-skills-starter/
 
 ## Skills
 
-| Skill | Version | Type | Description |
-|-------|---------|------|-------------|
-| `/drawio` | 1.0.0 | utility | Generate draw.io diagrams as native files with PNG/SVG/PDF export |
-| `/detect-stack` | 1.0.0 | utility | Classify project type, language, framework, and build tools |
-| `/review-pr` | 1.0.0 | orchestrator | Review pull request changes for quality, style, and correctness |
-| `/document` | 1.0.0 | orchestrator | Generate project documentation with architecture diagrams |
+| Skill           | Version | Type         | Description                                                       |
+|-----------------|---------|--------------|-------------------------------------------------------------------|
+| `/drawio`       | 1.0.0   | utility      | Generate draw.io diagrams as native files with PNG/SVG/PDF export |
+| `/detect-stack` | 1.0.0   | utility      | Classify project type, language, framework, and build tools       |
+| `/review-pr`    | 1.0.0   | orchestrator | Review pull request changes for quality, style, and correctness   |
+| `/document`     | 1.0.0   | orchestrator | Generate project documentation with architecture diagrams         |
 
 ## Rules
 
-| Rule | Purpose |
-|------|---------|
-| `drawio-conventions` | Standards for clean, readable draw.io diagrams |
-| `code-style` | General coding conventions and best practices |
+| Rule                      | Purpose                                             |
+|---------------------------|-----------------------------------------------------|
+| `drawio-conventions`      | Standards for clean, readable draw.io diagrams      |
+| `code-style`              | General coding conventions and best practices       |
 | `documentation-standards` | Documentation quality and completeness requirements |
 
 ## Workflows
 
-| Workflow | Purpose |
-|----------|---------|
+| Workflow           | Purpose                                                             |
+|--------------------|---------------------------------------------------------------------|
 | `document-project` | End-to-end project documentation using `/document` skill and drawio |
 
 ## Testing
@@ -147,10 +148,10 @@ forge-skills-starter/
 
 Specimens are **real project snapshots** on orphan branches. Any skill that operates on source code can use them.
 
-| Specimen | Description |
-|----------|-------------|
-| `specimen/python/fastapi` | FastAPI REST API service |
-| `specimen/ts/express` | Express.js TypeScript REST API |
+| Specimen                  | Description                    |
+|---------------------------|--------------------------------|
+| `specimen/python/fastapi` | FastAPI REST API service       |
+| `specimen/ts/express`     | Express.js TypeScript REST API |
 
 Delta branches (e.g. `specimen/python/fastapi-delta-docs`) add small changes with intentional findings.
 
