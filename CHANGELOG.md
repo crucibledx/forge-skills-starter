@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.1] - 2026-04-22
+
+### Changed
+
+- **README rewrite:** Lead with "AI Resources Lifecycle Platform" identity, add "What is this?" and "Why?" sections, simplify quick start to single fork-first path, compress repo structure to mental model, organize docs as guided journey, move Forge CLI setup details to CONTRIBUTING
+
 ## [0.7.0] - 2026-06-22
 
 ### Added
@@ -81,6 +87,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - **Platform scaffold:** README, CONTRIBUTING, CLAUDE.md, .gitignore
 - **Docs:** `docs/platform-design.md` (Convention-over-Configuration architecture), `docs/skill-spec.md` (skill format specification)
 
+[0.7.1]: https://github.com/crucibledx/forge-skills-starter/releases/tag/v0.7.1
 [0.7.0]: https://github.com/crucibledx/forge-skills-starter/releases/tag/v0.7.0
 [0.6.0]: https://github.com/crucibledx/forge-skills-starter/releases/tag/v0.6.0
 [0.5.0]: https://github.com/crucibledx/forge-skills-starter/releases/tag/v0.5.0
