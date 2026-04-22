@@ -1,14 +1,16 @@
-# Forge Skills Starter — Platform Design
+# AI Resource Lifecycle Platform — Design
 
-> A **development + testing platform** for AI agent skills, rules, and workflows, delivered via Forge CLI.
+> A **development lifecycle platform** for AI resources (skills, rules, workflows), delivered via Forge CLI.
+>
+> **AI resource** = a reusable definition that shapes AI agent behavior. See [README](../README.md) for the full definition.
 
 ### Diagrams
 
-**Platform Flow** — the development lifecycle:
+**Platform Flow** — the single development flow ([editable](diagrams/platform-flow.drawio)):
 
 ![Platform Flow](diagrams/platform-flow.drawio.png)
 
-**Convention Map** — repository structure, shared vs platform:
+**Convention Map** — repository structure: shared vs platform ([editable](diagrams/convention-map.drawio)):
 
 ![Convention Map](diagrams/convention-map.drawio.png)
 
@@ -22,16 +24,18 @@ One architectural pattern drives everything: **Convention over Configuration**.
 
 Inspired by Rails and modern monorepo tooling (Nx, Turborepo) — the directory structure **is** the architecture. No registration files, no config, no wiring. Put a file in the right place → the platform discovers it automatically.
 
-### The Convention Table
+### The Convention Table (the entire foundation)
 
-| What       | Convention                                 | Auto-discovered by                     |
-|------------|--------------------------------------------|----------------------------------------|
-| Skill      | `skills/<name>/SKILL.md`                   | `/develop-skill`, `/test-skill`, Forge |
-| Skill docs | `skills/<name>/README.md`                  | Developers browsing the repo           |
-| Rule       | `rules/<name>.md`                          | Forge delivery tools                   |
-| Workflow   | `workflows/<name>.md`                      | Forge delivery tools                   |
-| Specimen   | orphan branch `specimen/<lang>/<fw>`       | `/test-skill`, `list_specimens.py`     |
-| Delta      | branch `specimen/<lang>/<fw>-delta-<name>` | `/test-skill`, `list_specimens.py`     |
+| What       | Convention                                 | Auto-discovered by                          |
+|------------|--------------------------------------------|---------------------------------------------|
+| Skill      | `skills/<name>/SKILL.md`                   | `/create-resource`, `/test-resource`, Forge |
+| Skill docs | `skills/<name>/README.md`                  | Developers browsing the repo                |
+| Design     | `docs/<resource-name>/design.md`           | `/design-resource`, `/develop-resource`     |
+| Diagrams   | `docs/<resource-name>/*.drawio`            | `/design-resource`, `export_diagrams.sh`    |
+| Rule       | `rules/<name>.md`                          | `/create-resource`, Forge                   |
+| Workflow   | `workflows/<name>.md`                      | `/create-resource`, Forge                   |
+| Specimen   | orphan branch `specimen/<lang>/<fw>`       | `/test-resource`, `list_specimens.py`       |
+| Delta      | branch `specimen/<lang>/<fw>-delta-<name>` | `/test-resource`, `list_specimens.py`       |
 
 **That's the entire backbone.** Every new feature = a new file in the right place.
 
@@ -46,26 +50,30 @@ Inspired by Rails and modern monorepo tooling (Nx, Turborepo) — the directory 
 
 ---
 
-## The Single Flow
+## The Resource Lifecycle
 
-One flow for everything. Two commands to learn:
-
-```
-/develop-skill  →  /test-skill  →  commit + tag
-```
-
-Expanded:
+One orchestrator command, three composable phases:
 
 ```
-IDEA  ──→  /develop-skill  ──→  /test-skill  ──→  version bump  ──→  DONE
-           │                    │
-           ├── README.md        ├── merge specimen
-           ├── SKILL.md         ├── run skill
-           └── fill steps       ├── test report
-                                └── iterate & fix
+/create-resource  →  /design-resource  →  /develop-resource  →  /test-resource  →  release
 ```
 
-**For new contributors:** Two commands, one convention table, zero config.
+Each phase is a standalone `.claude/skills/` entry that also works as a subagent of the orchestrator.
+
+```
+ DESIGN              DEVELOP             TEST                RELEASE
+ ┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌───────────┐
+ │ design.md    │ →  │ SKILL.md     │ →  │ auto-detect  │ →  │ version++ │
+ │ flow.drawio  │    │ scaffold     │    │ test strategy│    │ changelog │
+ │ contracts    │    │ implement    │    │ report       │    │ tag       │
+ └──────────────┘    └──────────────┘    └──────────────┘    └───────────┘
+      ↑                   ↑                   ↑
+   user reviews        user reviews        iterate on failures
+```
+
+**For new contributors:** One command (`/create-resource`), one convention table, zero config.
+
+> See [Meta-Resources Design](meta-resources/design.md) for the detailed architecture with diagrams.
 
 ---
 
@@ -73,14 +81,14 @@ IDEA  ──→  /develop-skill  ──→  /test-skill  ──→  version bump
 
 ### Key distinction
 
-| Location          | Delivered to consumer repos? | Purpose                              |
-|-------------------|------------------------------|--------------------------------------|
-| `skills/`         | Yes (canonical)              | Executable skill definitions         |
-| `rules/`          | Yes (canonical)              | Shared context rules                 |
-| `workflows/`      | Yes (canonical)              | Shared workflows                     |
-| `.claude/skills/` | No                           | Platform meta-skills (develop, test) |
-| `scripts/`        | No                           | Test automation                      |
-| `docs/`           | No                           | Design docs, guides                  |
+| Location          | Delivered to consumer repos? | Purpose                                              |
+|-------------------|------------------------------|------------------------------------------------------|
+| `skills/`         | Yes (canonical)              | Executable skill definitions                         |
+| `rules/`          | Yes (canonical)              | Shared context rules                                 |
+| `workflows/`      | Yes (canonical)              | Shared workflows                                     |
+| `.claude/skills/` | No                           | Platform meta-skills (create, design, develop, test) |
+| `scripts/`        | No                           | Test automation                                      |
+| `docs/`           | No                           | Design docs, guides, diagrams                        |
 
 ### Forge layout strategy
 
@@ -96,50 +104,6 @@ forge source add
 This ensures only `skills/`, `rules/`, and `workflows/` are synced. The `.claude/skills/` meta-skills stay local to this repo.
 
 If `auto` layout is used, Forge may detect the repo as `hybrid` and attempt to sync `.claude/skills/` as well — which would deliver the development tools instead of just the shared skills.
-
----
-
-## Skill Development Lifecycle
-
-`/develop-skill` drives the full lifecycle:
-
-```
- DESIGN            BUILD             TEST              RELEASE
- ┌──────────┐  ✓  ┌────────────┐  ✓  ┌──────────┐  ✓  ┌───────────┐
- │ README.md│ ──→ │ SKILL.md   │ ──→ │ specimen │ ──→ │ version++ │
- │ contracts│     │ fill steps │     │ /test    │     │ changelog │
- └──────────┘     └────────────┘     │ report   │     │ tag       │
-                                     └──────────┘     └───────────┘
-```
-
-### DESIGN → `skills/<skill-name>/README.md`
-
-| Artifact    | Purpose                                                  |
-|-------------|----------------------------------------------------------|
-| `README.md` | Purpose, scope, input/output contracts, design decisions |
-
-### BUILD → `skills/<skill-name>/SKILL.md`
-
-| Artifact   | Purpose                                |
-|------------|----------------------------------------|
-| `SKILL.md` | Executable skill (frontmatter + steps) |
-
-### TEST
-
-| Action         | Mechanism                                          |
-|----------------|----------------------------------------------------|
-| Merge specimen | `/test-skill` creates test branch, merges specimen |
-| Run skill      | `/test-skill` invokes the skill                    |
-| Report         | Test results documented                            |
-| Iterate        | Fix skill → re-test until clean                    |
-
-### RELEASE
-
-| Action       | Mechanism                          |
-|--------------|------------------------------------|
-| Version bump | Skill frontmatter `version:` field |
-| Changelog    | Platform `CHANGELOG.md`            |
-| Tag          | `git tag -a v<x.y.z>`              |
 
 ---
 
@@ -162,10 +126,14 @@ Delta branches add targeted changes for testing specific skill behavior.
 - Skill needs specific project structure (e.g. monorepo)
 - Existing specimens don't exercise the skill's edge cases
 
+> See [How to Add a Specimen](how-to-add-specimen.md) for the full guide.
+
 ---
 
 ## What This Design Does NOT Cover
 
-- **CI/CD pipeline** — future work, could auto-run `/test-skill` on PR
-- **Skill marketplace / discovery** — future work, skills are discovered by browsing `skills/`
-- **Cross-repo skill dependencies** — future work, skills currently stand alone
+- **Delivery mechanism** — handled by [Forge CLI](https://github.com/crucibledx/forge-cli)
+- **CI/CD pipeline** — future work, could auto-run `/test-resource` on PR
+- **Resource marketplace / discovery** — future work, resources are discovered by browsing the repo
+- **Cross-repo dependencies** — future work, resources currently stand alone
+- **Agent resource type** — future work, agents as autonomous entities with sub-agents

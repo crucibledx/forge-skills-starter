@@ -1,23 +1,24 @@
 # Forge Skills Starter
 
-> A reference AI skills repository — develop, test, and deliver AI agent skills to your team
+> An AI resource lifecycle platform — design, develop, test, and deliver AI agent skills, rules, and workflows
 
-A **development and testing platform** for AI agent skills, rules, and workflows. Build skills here. Test them against real specimens. Deliver to team repos via [Forge CLI](https://github.com/crucibledx/forge-cli).
+Build AI resources here. Test them against real project specimens. Deliver to team repos via [Forge CLI](https://github.com/crucibledx/forge-cli).
 
 ## How It Works
 
-Two commands, one flow:
+One orchestrator, three phases:
 
 ![Platform Flow](docs/diagrams/platform-flow.drawio.png)
 
-| What       | Convention                                 | Discovered by                          |
-|------------|--------------------------------------------|----------------------------------------|
-| Skill      | `skills/<name>/SKILL.md`                   | `/develop-skill`, `/test-skill`, Forge |
-| Skill docs | `skills/<name>/README.md`                  | Developers browsing the repo           |
-| Rule       | `rules/<name>.md`                          | Forge delivery tools                   |
-| Workflow   | `workflows/<name>.md`                      | Forge delivery tools                   |
-| Specimen   | orphan branch `specimen/<lang>/<fw>`       | `/test-skill`, `list_specimens.py`     |
-| Delta      | branch `specimen/<lang>/<fw>-delta-<name>` | `/test-skill`                          |
+| What       | Convention                                 | Discovered by                               |
+|------------|--------------------------------------------|---------------------------------------------|
+| Skill      | `skills/<name>/SKILL.md`                   | `/create-resource`, `/test-resource`, Forge |
+| Skill docs | `skills/<name>/README.md`                  | Developers browsing the repo                |
+| Design     | `docs/<name>/design.md`                    | `/design-resource`, `/develop-resource`     |
+| Rule       | `rules/<name>.md`                          | `/create-resource`, Forge                   |
+| Workflow   | `workflows/<name>.md`                      | `/create-resource`, Forge                   |
+| Specimen   | orphan branch `specimen/<lang>/<fw>`       | `/test-resource`, `list_specimens.py`       |
+| Delta      | branch `specimen/<lang>/<fw>-delta-<name>` | `/test-resource`                            |
 
 Put a file in the right place → the platform discovers it. No config, no registration.
 
@@ -25,17 +26,23 @@ Put a file in the right place → the platform discovers it. No config, no regis
 
 ## Quick Start
 
-### For skill developers (this repo)
+### For resource developers (this repo)
 
 ```bash
-# 1. Develop a new skill
-/develop-skill "A skill that does X"
+# Create a new resource end-to-end (design → develop → test → release)
+/create-resource "A skill that generates architecture diagrams"
 
-# 2. Test it against a specimen
-/test-skill <skill-name> <specimen>
+# Or run individual phases
+/design-resource "A skill that generates architecture diagrams"
+/develop-resource my-skill
+/test-resource my-skill specimen/python/fastapi
 ```
 
-### For skill consumers (team repos)
+Each phase works standalone or as a subagent of the orchestrator.
+
+> See [How to Create a Resource](docs/how-to-create-resource.md) for the full guide.
+
+### For resource consumers (team repos)
 
 #### Using Forge CLI
 
@@ -57,15 +64,13 @@ forge sync
 
 Forge auto-detects the canonical layout in this repo, maps each skill/rule/workflow to the right path for each AI tool, and handles format transforms (e.g. `.md` → `.mdc` for Cursor).
 
-> **Layout note:** This repo uses **canonical** layout (`skills/`, `rules/`, `workflows/`). When adding this as a Forge source, use layout override `canonical` to avoid syncing platform meta-skills from `.claude/skills/`. The meta-skills (`/develop-skill`, `/test-skill`) are for this repo's own
+> **Layout note:** This repo uses **canonical** layout (`skills/`, `rules/`, `workflows/`). When adding this as a Forge source, use layout override `canonical` to avoid syncing platform meta-skills from `.claude/skills/`. The meta-skills (`/create-resource`, etc.) are for this repo's own
 > development, not for delivery.
 >
 > ```bash
 > forge source add
 > # → Layout: canonical (not auto)
 > ```
->
-> If you use `pre-structured` layout, Forge would also sync the `.claude/skills/` directory, which contains this repo's development tools — not the shared skills.
 
 To keep skills up to date:
 
@@ -102,7 +107,11 @@ forge-skills-starter/
 ├── workflows/                      # Shared workflows (delivered to team repos)
 │   └── document-project.md        # Full documentation workflow
 ├── docs/                           # Platform docs (NOT delivered)
-│   ├── diagrams/                  # Source .drawio + exported .drawio.png
+│   ├── meta-resources/            # Orchestrator architecture + diagrams
+│   ├── diagrams/                  # Platform-level .drawio + .drawio.png
+│   ├── how-to-create-resource.md  # Full lifecycle guide
+│   ├── how-to-test-resource.md    # Testing with specimens
+│   ├── how-to-add-specimen.md     # Creating test project snapshots
 │   ├── platform-design.md         # Architecture & conventions
 │   └── skill-spec.md             # Skill format specification
 ├── scripts/                        # Test automation (NOT delivered)
@@ -110,8 +119,10 @@ forge-skills-starter/
 │   └── export_diagrams.sh        # Export all .drawio → .drawio.png
 ├── .claude/                        # Claude Code meta-skills (NOT delivered)
 │   └── skills/
-│       ├── develop-skill/         # Skill development lifecycle
-│       └── test-skill/            # Skill testing against specimens
+│       ├── create-resource/       # Orchestrator: idea → release
+│       ├── design-resource/       # Phase 1: design.md + diagrams
+│       ├── develop-resource/      # Phase 2: scaffold + implement
+│       └── test-resource/         # Phase 3: type-aware testing
 ├── CLAUDE.md                       # Project instructions
 ├── CHANGELOG.md
 └── CONTRIBUTING.md
@@ -160,7 +171,7 @@ Delta branches (e.g. `specimen/python/fastapi-delta-docs`) add small changes wit
 
 ```bash
 # Agent-assisted (recommended)
-/test-skill document specimen/python/fastapi
+/test-resource document specimen/python/fastapi
 
 # Manual
 python3 scripts/list_specimens.py   # list specimens and deltas
@@ -168,8 +179,12 @@ python3 scripts/list_specimens.py   # list specimens and deltas
 
 ### Guides
 
-- [Skill Specification](docs/skill-spec.md) — frontmatter fields, step conventions, versioning
+- [How to Create a Resource](docs/how-to-create-resource.md) — full lifecycle guide
+- [How to Test a Resource](docs/how-to-test-resource.md) — testing with specimens
+- [How to Add a Specimen](docs/how-to-add-specimen.md) — creating test project snapshots
+- [Skill Specification](docs/skill-spec.md) — frontmatter fields, step conventions
 - [Platform Design](docs/platform-design.md) — architecture and conventions
+- [Meta-Resources Design](docs/meta-resources/design.md) — orchestrator architecture
 
 ## Contributing
 

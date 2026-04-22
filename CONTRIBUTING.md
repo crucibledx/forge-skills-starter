@@ -1,40 +1,51 @@
-# Contributing to Forge Skills Starter
+# Contributing to the AI Resource Lifecycle Platform
 
 ## Development Workflow
 
-### 1. Create a feature branch
+### 1. Create a new resource (the easy way)
 
-```bash
-git checkout main
-git pull
-git checkout -b feature/my-change
+```
+/create-resource "A skill that does X"
 ```
 
-### 2. Make your changes
+This orchestrates the full lifecycle: design → develop → test → release.
+
+### 2. Or work phase by phase
+
+```bash
+# Design only
+/design-resource "A skill that does X"
+
+# Develop from existing design
+/develop-resource my-skill
+
+# Test an existing resource
+/test-resource document specimen/python/fastapi
+```
+
+### 3. Editing existing resources
 
 - **Editing a skill?** — modify `skills/<skill-name>/SKILL.md`
 - **Adding a rule?** — add `rules/<name>.md`
 - **Adding a workflow?** — add `workflows/<name>.md`
 - **Adding docs?** — add to `docs/` or update `README.md`
 
-### 3. Test with the agent
-
-Use the `/test-skill` Claude Code command:
+### 4. Test with the agent
 
 ```
-/test-skill document specimen/python/fastapi
-/test-skill review-pr specimen/ts/express
+/test-resource document specimen/python/fastapi
+/test-resource review-pr specimen/ts/express
 ```
 
 This will:
 
 1. Commit your pending changes (if any)
-2. Create a test branch from your feature branch
+2. Create a test branch from your current branch
 3. Merge the chosen specimen
 4. Run the target skill
-5. Return you to your feature branch
+5. Return you to your original branch
 
-### 4. Commit and push
+### 5. Commit and push
 
 Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
@@ -45,18 +56,12 @@ docs: add how-to-test guide
 specimen: add Python FastAPI service
 ```
 
-### 5. Create a pull request
-
-```bash
-git push origin feature/my-change
-```
-
 ## Working with AI Agents
 
 ### Best practices
 
 - **Be specific** — tell the agent exactly which skill to edit, which file, which section
-- **Test after every change** — use `/test-skill` to validate before committing
+- **Test after every change** — use `/test-resource` to validate before committing
 - **Review agent output** — AI-generated skill steps must be reviewed by a human
 - **Use capable models** — skills are designed for high-capability reasoning models (Claude Opus 4+, GPT-4o+)
 
@@ -75,15 +80,25 @@ forge-skills-starter/
 ├── rules/                      # Shared context rules
 ├── workflows/                  # Shared workflows
 ├── docs/                       # Design docs, guides, diagrams
+│   ├── meta-resources/         # Orchestrator architecture
+│   ├── diagrams/               # Platform diagrams (.drawio + .png)
+│   ├── how-to-*.md             # Guides
+│   ├── platform-design.md      # Architecture & conventions
+│   └── skill-spec.md           # Skill format specification
 ├── scripts/                    # Test automation
-├── .claude/skills/           # Claude Code meta-skills (platform-only)
+├── .claude/skills/             # Claude Code meta-skills (platform-only)
+│   ├── create-resource/        # Orchestrator: idea → release
+│   ├── design-resource/        # Phase 1: design.md + diagrams
+│   ├── develop-resource/       # Phase 2: scaffold + implement
+│   └── test-resource/          # Phase 3: type-aware testing
+├── CLAUDE.md                   # Project instructions
 ├── CONTRIBUTING.md             # This file
 ├── CHANGELOG.md
 └── README.md
 ```
 
 > **`.claude/skills/`** contains meta-skills specific to this repository
-> (e.g. `/develop-skill`, `/test-skill`). They should **not** be copied to other projects.
+> (e.g. `/create-resource`, `/test-resource`). They should **not** be copied to other projects.
 > Shared skills live in `skills/` and are delivered by Forge.
 
 ### Branch structure
@@ -108,11 +123,11 @@ This project follows [Semantic Versioning](https://semver.org/):
 Update `CHANGELOG.md` with every PR. Tag releases on `main`:
 
 ```bash
-git tag -a v0.2.0 -m "v0.2.0"
-git push origin v0.2.0
+git tag -a v0.6.0 -m "v0.6.0"
+git push origin main --follow-tags
 ```
 
-## Delivering Skills to Team Repos
+## Delivering Resources to Team Repos
 
 Skills, rules, and workflows from this repo are delivered to team projects using [Forge CLI](https://github.com/crucibledx/forge-cli).
 
@@ -150,14 +165,23 @@ forge sync
 
 ### What gets delivered vs. what stays
 
-| Directory         | Delivered?                 | Reason                   |
-|-------------------|----------------------------|--------------------------|
-| `skills/`         | Yes                        | Shared skill definitions |
-| `rules/`          | Yes                        | Shared context rules     |
-| `workflows/`      | Yes                        | Shared workflows         |
-| `.claude/skills/` | No (with canonical layout) | Platform meta-skills     |
-| `docs/`           | No                         | Design docs, guides      |
-| `scripts/`        | No                         | Test automation          |
+| Directory         | Delivered?                 | Reason                        |
+|-------------------|----------------------------|-------------------------------|
+| `skills/`         | Yes                        | Shared skill definitions      |
+| `rules/`          | Yes                        | Shared context rules          |
+| `workflows/`      | Yes                        | Shared workflows              |
+| `.claude/skills/` | No (with canonical layout) | Platform meta-skills          |
+| `docs/`           | No                         | Design docs, guides, diagrams |
+| `scripts/`        | No                         | Test automation               |
+
+## Guides
+
+- [How to Create a Resource](docs/how-to-create-resource.md) — full lifecycle guide
+- [How to Test a Resource](docs/how-to-test-resource.md) — testing with specimens
+- [How to Add a Specimen](docs/how-to-add-specimen.md) — creating test project snapshots
+- [Skill Specification](docs/skill-spec.md) — frontmatter fields, step conventions
+- [Platform Design](docs/platform-design.md) — architecture overview
+- [Meta-Resources Design](docs/meta-resources/design.md) — orchestrator architecture
 
 ## Code Style
 
