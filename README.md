@@ -1,132 +1,116 @@
-# AI Resources Lifecycle Platform
+# AI Resources Lifecycle Platform — Monorepo Example
 
-> Design, develop, test, and deliver AI agent skills, rules, and workflows — in one place.
+> Team-scoped AI resources in a monorepo layout. Each team owns their canonical `skills/`, `rules/`, `workflows/` under a team folder.
 
-**Fork this repo.** Build your team's AI resources with a structured lifecycle. Deliver them to any AI tool.
+**This is the `example/monorepo` branch.** It demonstrates how to organize AI resources for multiple teams in a single repo, with each team getting their own scoped resources delivered via [Forge CLI](https://github.com/crucibledx/forge-cli).
+
+For the standard single-team setup, see the [`main` branch](https://github.com/crucibledx/forge-skills-starter/tree/main).
 
 ---
 
-## What is this?
+## Structure
 
-An **AI resource** is anything that shapes how an AI agent behaves:
+```
+shared/                  # Cross-team resources — every team gets these
+  skills/                # /detect-stack, /document, /drawio, /review-pr
+  rules/                 # code-style, documentation-standards, drawio-conventions
+  workflows/             # document-project
 
-| Type         | What it does                         | Example                            |
-|--------------|--------------------------------------|------------------------------------|
-| **Skill**    | Step-by-step instructions for a task | `/review-pr`, `/document`          |
-| **Rule**     | Always-on constraint or convention   | `code-style`, `drawio-conventions` |
-| **Workflow** | Multi-step process combining skills  | `document-project`                 |
+frontend/                # Frontend team
+  skills/                # /review-frontend, /accessibility
+  rules/                 # react-conventions
+  workflows/             # component-review
 
-This platform gives AI resources a **full engineering lifecycle** — design, develop, test against real code, version, and deliver — instead of scattering them across wikis and copy-paste threads.
+backend/                 # Backend team
+  skills/                # /review-api, /database-migration
+  rules/                 # api-conventions
+  workflows/             # api-review
 
-## Why?
-
-| Without a platform                           | With this platform                                     |
-|----------------------------------------------|--------------------------------------------------------|
-| Skills live in random docs or Slack messages | `skills/<name>/SKILL.md` — versioned, reviewed, tested |
-| No way to know if a skill actually works     | Test against real project specimens on orphan branches |
-| Every team invents their own structure       | Convention over configuration — structure IS the API   |
-| Delivery is manual copy-paste per AI tool    | Deliver to Claude Code, Windsurf, Cursor automatically |
-
-## Quick Start
-
-```bash
-# 1. Fork this repo, then clone your fork
-
-# 2. Create your first resource
-/create-resource "A skill that reviews database migrations for safety"
-
-# The agent walks you through: Design → Develop → Test → Release
-# Each phase also works standalone (/design-resource, /develop-resource, /test-resource)
+infra/                   # Infrastructure team
+  skills/                # /review-terraform, /incident-runbook
+  rules/                 # terraform-conventions
+  workflows/             # deploy-review
 ```
 
-> **Full guide:** [How to Create a Resource](docs/how-to-create-resource.md)
+Each team folder contains a full canonical layout (`skills/`, `rules/`, `workflows/`). Forge CLI treats each as an independent source with its own subdirectory.
 
-## How It Works
+## Using with Forge CLI
 
-### Convention over configuration
+Each team points their Forge source at this repo with a `subdirectory` filter:
 
-Put a file in the right place — the platform discovers it. No config, no registration.
+```yaml
+# .crucible/forge.config.yaml — frontend team project
+sources:
+  - name: shared
+    type: git
+    url: https://github.com/your-org/forge-skills-starter.git
+    branch: example/monorepo
+    subdirectory: shared
 
-| What     | Convention                           | Discovered by                        |
-|----------|--------------------------------------|--------------------------------------|
-| Skill    | `skills/<name>/SKILL.md`             | `/create-resource`, `/test-resource` |
-| Rule     | `rules/<name>.md`                    | `/create-resource`, Forge CLI        |
-| Workflow | `workflows/<name>.md`                | `/create-resource`, Forge CLI        |
-| Specimen | orphan branch `specimen/<lang>/<fw>` | `/test-resource`                     |
-
-> **Deep dive:** [Platform Design](docs/platform-design.md)
-
-### One orchestrator, three phases
-
-`/create-resource` drives the full lifecycle. Each phase also works standalone:
-
-| Phase   | Command             | What it does                                              |
-|---------|---------------------|-----------------------------------------------------------|
-| Design  | `/design-resource`  | Clarify requirements → design doc + architecture diagrams |
-| Develop | `/develop-resource` | Scaffold → implement step by step → human review          |
-| Test    | `/test-resource`    | Merge real project specimen → run skill → validate        |
-
-### Testing with specimens
-
-Specimens are **real project snapshots** on orphan git branches. They give skills realistic code to work against — without polluting `main`.
-
-```bash
-/test-resource review-pr specimen/python/fastapi
-# → Creates test branch → merges specimen → runs skill → reports results
+  - name: frontend
+    type: git
+    url: https://github.com/your-org/forge-skills-starter.git
+    branch: example/monorepo
+    subdirectory: frontend
 ```
 
-| Specimen                  | Description                    |
-|---------------------------|--------------------------------|
-| `specimen/python/fastapi` | FastAPI REST API service       |
-| `specimen/ts/express`     | Express.js TypeScript REST API |
+Or use `include`/`exclude` globs for fine-grained control:
 
-Delta branches (e.g. `specimen/python/fastapi-delta-docs`) add intentional issues for edge-case testing.
-
-> **Guides:** [How to Test a Resource](docs/how-to-test-resource.md) · [How to Add a Specimen](docs/how-to-add-specimen.md)
+```yaml
+sources:
+  - name: team-skills
+    type: git
+    url: https://github.com/your-org/forge-skills-starter.git
+    branch: example/monorepo
+    include:
+      - "shared/**"
+      - "backend/skills/**"
+      - "backend/rules/api-conventions.md"
+    exclude:
+      - "**/draft-*"
+```
 
 ## What's Included
 
-Example resources to use, extend, or replace:
+### Shared (all teams)
 
-| Skills          | Type         | Description                                         |
-|-----------------|--------------|-----------------------------------------------------|
-| `/drawio`       | utility      | Generate draw.io diagrams with PNG/SVG/PDF export   |
-| `/detect-stack` | utility      | Detect project language, framework, and build tools |
-| `/review-pr`    | orchestrator | Review PR changes for quality and correctness       |
-| `/document`     | orchestrator | Generate project docs with architecture diagrams    |
+| Resource | Type | Description |
+|----------|------|-------------|
+| `/detect-stack` | skill | Detect project language, framework, and build tools |
+| `/document` | skill | Generate project docs with architecture diagrams |
+| `/drawio` | skill | Generate draw.io diagrams with PNG/SVG/PDF export |
+| `/review-pr` | skill | Review PR changes for quality and correctness |
+| `code-style` | rule | General coding conventions |
+| `documentation-standards` | rule | Documentation quality requirements |
+| `drawio-conventions` | rule | Standards for clean draw.io diagrams |
+| `document-project` | workflow | End-to-end documentation generation |
 
-| Rules & Workflows         | Purpose                               |
-|---------------------------|---------------------------------------|
-| `drawio-conventions`      | Standards for clean draw.io diagrams  |
-| `code-style`              | Coding conventions and best practices |
-| `documentation-standards` | Documentation quality requirements    |
-| `document-project`        | Workflow: end-to-end documentation    |
+### Frontend
 
-## Delivering to Team Repos
+| Resource | Type | Description |
+|----------|------|-------------|
+| `/review-frontend` | skill | Review React code for best practices and performance |
+| `/accessibility` | skill | Audit for WCAG compliance and accessibility issues |
+| `react-conventions` | rule | React component patterns and naming conventions |
+| `component-review` | workflow | End-to-end frontend component review |
 
-The platform builds resources. How you deliver them is flexible:
+### Backend
 
-| Method                                                                   | How                                                     |
-|--------------------------------------------------------------------------|---------------------------------------------------------|
-| [**Forge CLI**](https://github.com/crucibledx/forge-cli) *(recommended)* | `forge init` → `forge sync` — auto-maps to each AI tool |
-| **Git submodules**                                                       | Add this repo as a submodule, symlink what you need     |
-| **Manual copy**                                                          | Copy from `skills/`, `rules/`, `workflows/` directly    |
+| Resource | Type | Description |
+|----------|------|-------------|
+| `/review-api` | skill | Review API endpoints for REST conventions and security |
+| `/database-migration` | skill | Review DB migrations for safety and reversibility |
+| `api-conventions` | rule | REST API design standards |
+| `api-review` | workflow | End-to-end API review with migration check |
 
-> **Setup details:** [CONTRIBUTING.md — Delivering Resources](CONTRIBUTING.md#delivering-resources-to-team-repos)
+### Infra
 
-## Repository Structure
-
-```
-├── skills/              # AI skills         ← delivered to team repos
-├── rules/               # Context rules     ← delivered to team repos
-├── workflows/           # Workflows         ← delivered to team repos
-│
-├── docs/                # Platform docs & design artifacts
-├── scripts/             # Test automation
-└── .claude/skills/      # Meta-skills that power the lifecycle
-```
-
-**Shared** (`skills/`, `rules/`, `workflows/`) → delivered to your team's repos. **Platform** (everything else) → stays here, powers the lifecycle.
+| Resource | Type | Description |
+|----------|------|-------------|
+| `/review-terraform` | skill | Review IaC changes for security, cost, and blast radius |
+| `/incident-runbook` | skill | Generate incident response runbooks |
+| `terraform-conventions` | rule | Terraform file structure and naming conventions |
+| `deploy-review` | workflow | Infrastructure review before deployment |
 
 ## Documentation
 
