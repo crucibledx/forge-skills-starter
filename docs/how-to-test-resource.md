@@ -15,17 +15,30 @@ This guide covers testing AI resources using `/test-resource` and specimen branc
 /test-resource code-style
 ```
 
+## Frontmatter-Driven Testing
+
+The `/test-resource` workflow reads the skill's `test:` frontmatter to determine what setup is needed:
+
+| Frontmatter field  | What `/test-resource` does                |
+|--------------------|-------------------------------------------|
+| `test.specimens`   | Offers compatible specimens               |
+| `test.needs-delta` | Asks for a delta branch selection         |
+| `test.needs-pr`    | Pushes branches + creates a real PR       |
+| `test.needs-study` | Runs a prerequisite skill before the test |
+
 ## Test Strategies by Type
 
 ### Skill testing (specimen-based)
 
 Skills are tested by running them against real project snapshots (specimens):
 
-1. `/test-resource` creates a temporary test branch
-2. Merges the chosen specimen (orphan branch with real code)
-3. Runs the skill against the merged code
-4. Records what worked and what didn't
-5. Cleans up the test branch
+1. Commits any pending changes on your branch
+2. Creates a test branch from your current branch
+3. Merges the chosen specimen (`--allow-unrelated-histories`)
+4. Sets up test prerequisites (PR, study report, etc. — based on frontmatter)
+5. Runs the skill against the merged code
+6. Generates a test run report
+7. Returns you to your original branch
 
 ### Rule testing (validation)
 
@@ -71,9 +84,36 @@ specimen/ts/express-delta-docs       — missing documentation
 python3 scripts/list_specimens.py
 ```
 
+## How Specimens Work
+
+Specimens are **real project snapshots** on orphan branches:
+
+```
+specimen/python/fastapi              ← orphan branch (full project)
+specimen/python/fastapi-delta-docs   ← forked from base (adds changes)
+```
+
+When `/test-resource` merges a specimen, it brings a real codebase into your test branch so the skill has something to work with.
+
+For skills that need a diff (e.g. `/review-pr`), a **base branch** and **delta branch** are created:
+
+```
+specimen/python/fastapi
+  └── test/review-base-python-fastapi-{ts}        ← base
+        └── test/review-python-fastapi-docs-{ts}   ← feature (base + delta)
+              → PR: feature → base
+              → run /review-pr
+```
+
 ## Manual Testing (without the agent)
 
-If you want to test manually:
+### List available specimens
+
+```bash
+python3 scripts/list_specimens.py
+```
+
+### Test manually
 
 ```bash
 # 1. Create a test branch
@@ -93,6 +133,19 @@ git checkout main
 git branch -D test/document-$(date +%Y%m%d)
 ```
 
+## Evaluating Results
+
+After the skill runs, check its output:
+
+### What to look for
+
+| Aspect          | Question                                           |
+|-----------------|----------------------------------------------------|
+| Correctness     | Does the output match the specimen's actual code?  |
+| Completeness    | Does it cover all relevant files/patterns?         |
+| False positives | Does it flag things that aren't actually problems? |
+| Actionability   | Are suggestions specific and helpful?              |
+
 ## Handling Test Failures
 
 When tests fail:
@@ -110,6 +163,21 @@ Common failure patterns:
 | Skill misses project files       | Add detection logic or wider file globs |
 | Rule too strict/loose            | Adjust constraints, add examples        |
 | Workflow has missing prereqs     | Add prerequisite checks to early steps  |
+
+## Key Points
+
+- **Test branches fork from your current branch** — skill edits you've made are included.
+- **Specimens are orphan branches** — no shared history with `main`.
+- **Test branches are disposable** — clean them up after testing.
+- **Skill frontmatter drives test setup** — no need to modify `/test-resource` for new skills.
+
+## Troubleshooting
+
+| Problem                       | Fix                                                                      |
+|-------------------------------|--------------------------------------------------------------------------|
+| "No specimen branches found"  | Run `git branch -a \| grep specimen` — specimens may only be on remote   |
+| Merge conflicts               | Usually `README.md` — resolve manually or let `/test-resource` handle it |
+| Script hangs at "Press Enter" | Intentional — switch to IDE, run the skill, then come back               |
 
 ## Related Docs
 

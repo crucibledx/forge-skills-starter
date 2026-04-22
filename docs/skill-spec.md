@@ -28,10 +28,13 @@ type: orchestrator           # orchestrator | sub-skill | utility
 language: "*"                # "*" (any), "python", "typescript", etc.
 requires: # Skills this skill delegates to (optional)
   - /detect-stack
-test: # Testing metadata (optional, used by /test-skill)
+test: # Testing metadata (optional, used by /test-resource)
   specimens: # Compatible specimens
     - specimen/python/fastapi
     - specimen/ts/express
+  needs-pr: false            # Requires a real PR for testing
+  needs-delta: false         # Requires a delta branch
+  needs-study: false         # Requires a prerequisite skill to run first
 ---
 ```
 
@@ -45,27 +48,32 @@ test: # Testing metadata (optional, used by /test-skill)
 
 ### Optional fields
 
-| Field      | Type     | Default | Description                             |
-|------------|----------|---------|-----------------------------------------|
-| `language` | string   | `"*"`   | Language scope (`"*"` = any)            |
-| `requires` | string[] | `[]`    | Skills this skill calls                 |
-| `test`     | object   | —       | Testing metadata, read by `/test-skill` |
+| Field      | Type     | Default | Description                                |
+|------------|----------|---------|--------------------------------------------|
+| `language` | string   | `"*"`   | Language scope (`"*"` = any)               |
+| `requires` | string[] | `[]`    | Skills this skill calls                    |
+| `test`     | object   | —       | Testing metadata, read by `/test-resource` |
 
 ### Test metadata fields
 
-| Field            | Type     | Default | Description          |
-|------------------|----------|---------|----------------------|
-| `test.specimens` | string[] | all     | Compatible specimens |
+| Field              | Type     | Default | Description                                   |
+|--------------------|----------|---------|-----------------------------------------------|
+| `test.specimens`   | string[] | all     | Which specimens this skill can be tested with |
+| `test.needs-pr`    | boolean  | false   | `/test-resource` creates a PR before running  |
+| `test.needs-delta` | boolean  | false   | `/test-resource` requires a delta branch      |
+| `test.needs-study` | boolean  | false   | `/test-resource` runs a prerequisite first    |
 
 ## Version Semantics
 
 Each skill has its own version in frontmatter:
 
-| Bump      | When                                    | Example                |
-|-----------|-----------------------------------------|------------------------|
-| **MAJOR** | Breaking change to the skill's contract | Changed report format  |
-| **MINOR** | New capability, backward compatible     | Added monorepo support |
-| **PATCH** | Bug fix, wording improvement            | Fixed detection logic  |
+| Bump      | When                                                     | Example                                   |
+|-----------|----------------------------------------------------------|-------------------------------------------|
+| **MAJOR** | Breaking change to the skill's contract (inputs/outputs) | Changed report format, renamed steps      |
+| **MINOR** | New capability, backward compatible                      | Added monorepo support, new review checks |
+| **PATCH** | Bug fix, wording improvement                             | Fixed detection logic, typo fix           |
+
+The platform `CHANGELOG.md` tracks which skill versions shipped in each platform release.
 
 ## Skill Types
 

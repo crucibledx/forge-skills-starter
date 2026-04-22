@@ -48,6 +48,10 @@ Inspired by Rails and modern monorepo tooling (Nx, Turborepo) — the directory 
 | **Speed**       | No boilerplate, no config files, no registration       |
 | **Consistency** | Same structure for every skill, enforced by convention |
 
+### What this is NOT
+
+This is not DDD (no domain model), not Hexagonal (no ports/adapters), not microservices. The closest analogy: **a package registry monorepo** where each skill is a package with a manifest (frontmatter), tests (specimens), and docs (README).
+
 ---
 
 ## The Resource Lifecycle

@@ -1,6 +1,39 @@
 # Meta-Resources — Design
 
-> AI resources that create other AI resources — one orchestrator, three phases, three resource types.
+> AI resources that create, design, test, and manage other AI resources.
+>
+> **AI resource** = a reusable definition that shapes AI agent behavior. See [README](../../README.md) for the full definition.
+
+## Diagrams
+
+**Architecture** — resource taxonomy, meta-resource layers, orchestrator pattern ([editable](architecture.drawio)):
+
+![Architecture](architecture.drawio.png)
+
+---
+
+## 1. Problem Statement
+
+Engineers want to create AI resources (skills, workflows, rules) but the process is:
+
+- **Ad-hoc** — no consistent structure, no guided process
+- **Undocumented** — no design phase, resources go straight to implementation
+- **Untested** — no standard way to validate a resource works correctly
+- **Hard to onboard** — new engineers can't figure out how to create resources without tribal knowledge
+
+We need meta-resources that **guide engineers** through a structured lifecycle: idea → design → develop → test → release.
+
+---
+
+## 2. Resource Taxonomy
+
+The platform manages three types of AI resources. Each has different complexity and development needs.
+
+| Resource Type | Location                 | Complexity | Design needed?                        | Test strategy                                                |
+|---------------|--------------------------|------------|---------------------------------------|--------------------------------------------------------------|
+| **Skill**     | `skills/<name>/SKILL.md` | Low–High   | Yes — design doc, diagrams, contracts | Specimen-based: merge specimen → run skill → validate output |
+| **Rule**      | `rules/<name>.md`        | Low        | Rarely — usually just conventions     | Manual review or lint-style validation                       |
+| **Workflow**  | `workflows/<name>.md`    | Medium     | Sometimes — depends on complexity     | Scenario-based: run workflow against known input             |
 
 ## What is an "AI resource"?
 
@@ -14,7 +47,7 @@ A reusable definition that shapes AI agent behavior:
 
 Think of them as composable building blocks — each type has different complexity, design needs, and test strategies.
 
-## The Orchestrator Pattern
+## 3. The Orchestrator Pattern
 
 One command drives everything:
 
@@ -28,15 +61,45 @@ One command drives everything:
 
 Each phase is a standalone skill that also works as a subagent of the orchestrator. You can run any phase independently.
 
-### Diagrams
+### Why standalone phases matter
 
-**Architecture** — orchestrator, phases, resource types ([editable](architecture.drawio)):
+| Scenario                                   | Command                                                    |
+|--------------------------------------------|------------------------------------------------------------|            
+| Engineer has an idea, wants full lifecycle | `/create-resource "description"`                           |
+| Design already exists, wants to implement  | `/develop-resource <name>`                                 |
+| Implementation exists, wants to test       | `/test-resource <name>`                                    |
+| Wants to redesign an existing resource     | `/design-resource <name> --redesign`                       |
+| Iterating after test failures              | `/develop-resource <name>` → fix → `/test-resource <name>` |
 
-![Architecture](architecture.drawio.png)
+### Resource-Type-Specific Adaptation
+
+Each resource type has specific development needs. The meta-resources adapt behavior based on the resource type being created:
+
+```
+/create-resource
+  ├── Detect resource type (skill? rule? workflow?)
+  │
+  ├── /design-resource
+  │     ├── skill  → design.md + flow.drawio + sequence.drawio + contracts
+  │     ├── rule   → skip (or minimal: just description + globs)
+  │     └── workflow → design.md + flow.drawio (if complex)
+  │
+  ├── /develop-resource
+  │     ├── skill  → scaffold SKILL.md + README.md → implement steps
+  │     ├── rule   → scaffold rule .md with frontmatter
+  │     └── workflow → scaffold workflow .md with steps
+  │
+  └── /test-resource
+        ├── skill  → specimen-based testing (merge → run → validate)
+        ├── rule   → validation (lint, structure check)
+        └── workflow → scenario-based testing
+```
 
 ---
 
-## Phase 1: `/design-resource`
+## 4. Phase Details
+
+### Phase 1: `/design-resource`
 
 Turn a vague idea into a structured design document.
 
@@ -65,9 +128,7 @@ docs/<name>/
   flow.drawio.png   — exported PNG
 ```
 
----
-
-## Phase 2: `/develop-resource`
+### Phase 2: `/develop-resource`
 
 Implement a resource based on the approved design.
 
@@ -92,9 +153,7 @@ Implement a resource based on the approved design.
 
 Implemented resource files in their canonical locations, ready for testing.
 
----
-
-## Phase 3: `/test-resource`
+### Phase 3: `/test-resource`
 
 Test a resource by auto-detecting its type and running the appropriate strategy.
 
@@ -135,9 +194,47 @@ Test flow:
 5. Record results (pass/fail per step)
 6. Return to original branch, delete test branch
 
+**Key principle:** When you add a new resource type that needs specific testing, you add a new test strategy that the orchestrator discovers automatically. No modification to `/test-resource` itself.
+
 ---
 
-## Tooling
+## 5. Engineer Journey
+
+The complete journey from idea to deployed resource:
+
+```
+1. Engineer has an idea
+   "I need a skill that generates architecture documentation"
+
+2. Engineer invokes /create-resource
+   /create-resource "A skill that generates architecture docs with diagrams"
+
+3. Agent asks clarifying questions (5-10 questions)
+   → Engineer answers
+   → Agent produces summary, engineer approves
+
+4. Agent creates design (design.md + diagrams)
+   → Engineer reviews diagrams, approves or requests changes
+   → Design approved ✓
+
+5. Agent scaffolds resource files
+   → Engineer reviews structure, approves
+   → Agent implements step by step
+   → Engineer reviews each step
+   → Implementation approved ✓
+
+6. Agent proposes test plan
+   → Engineer reviews
+   → Agent runs /test-resource
+   → Test report generated
+
+7. If tests pass: version bump + commit
+   If tests fail: iterate (back to step 5)
+```
+
+---
+
+## 6. Tooling
 
 ### Skills used by the platform
 
@@ -180,7 +277,7 @@ The entire platform is built on this table:
 
 ---
 
-## What This Design Does NOT Cover
+## 7. What This Design Does NOT Cover
 
 - **Delivery mechanism** — handled by [Forge CLI](https://github.com/crucibledx/forge-cli)
 - **CI/CD pipeline** — future work, could auto-run `/test-resource` on PR
@@ -190,16 +287,17 @@ The entire platform is built on this table:
 
 ---
 
-## Implementation Status
+## 8. Implementation Status
 
 | Component                 | Status |
 |---------------------------|--------|
-| `/create-resource` skill  | ✅      |
-| `/design-resource` skill  | ✅      |
-| `/develop-resource` skill | ✅      |
-| `/test-resource` skill    | ✅      |
-| `/drawio` skill           | ✅      |
-| Export script             | ✅      |
-| Specimen branches         | ✅      |
-| Architecture diagram      | ✅      |
-| How-to guides             | ✅      |
+| `/create-resource` skill  | ✅     |
+| `/design-resource` skill  | ✅     |
+| `/develop-resource` skill | ✅     |
+| `/test-resource` skill    | ✅     |
+| `/drawio` skill           | ✅     |
+| Export script             | ✅     |
+| Specimen branches         | ✅     |
+| Architecture diagram      | ✅     |
+| How-to guides             | ✅     |
+| Docs audit                | ✅     |

@@ -2,6 +2,8 @@
 
 > An AI resource lifecycle platform — design, develop, test, and deliver AI agent skills, rules, and workflows
 
+**AI resource** = a reusable definition that shapes AI agent behavior: **skills** (step-by-step instructions), **rules** (always-on constraints), and **workflows** (multi-step processes). Think of them as the building blocks you compose to make AI agents useful.
+
 Build AI resources here. Test them against real project specimens. Deliver to team repos via [Forge CLI](https://github.com/crucibledx/forge-cli).
 
 ## How It Works
@@ -129,6 +131,7 @@ forge-skills-starter/
 ```
 
 **Shared** (`skills/`, `rules/`, `workflows/`) → delivered to consumer repos via Forge.
+
 **Platform** (everything else) → stays in this repo, powers development & testing.
 
 ## Skills

@@ -65,6 +65,26 @@ specimen: add Python FastAPI service
 - **Review agent output** — AI-generated skill steps must be reviewed by a human
 - **Use capable models** — skills are designed for high-capability reasoning models (Claude Opus 4+, GPT-4o+)
 
+### Agent-assisted workflows
+
+**Creating a new resource:**
+
+```
+1. /create-resource "A skill that generates architecture documentation"
+2. Agent walks you through design → develop → test → release
+```
+
+**Editing an existing skill:**
+
+```
+1. "Fix the /document skill to include class diagrams"
+2. Agent edits skills/document/SKILL.md
+3. /test-resource document specimen/python/fastapi
+4. Agent creates test branch, merges specimen, runs /document
+5. Review the output — does it now include class diagrams?
+6. "Looks good, commit and push"
+```
+
 ### Things agents should NOT do
 
 - Delete or weaken existing skill steps without explicit permission

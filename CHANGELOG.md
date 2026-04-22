@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-06-22
+
+### Added
+
+- **Documentation index:** `docs/README.md` — "what to read when" guide with tables for platform docs, how-to guides, and per-resource design docs
+- **How-to-create-resource:** Tips section (answer all questions at once, use `--from-scratch`, test multiple specimens), example walkthrough showing full lifecycle
+- **How-to-test-resource:** Frontmatter-driven testing section (`test.specimens`, `test.needs-pr`, `test.needs-delta`, `test.needs-study`), How Specimens Work with branch diagrams, Evaluating Results table, Key Points, Troubleshooting table
+- **How-to-add-specimen:** Guidelines section (keep small, be realistic, include multiple concerns), "specimens do NOT need to compile" callout, What to Include in a Delta (code smell examples), Common Mistakes section
+- **Skill spec:** `needs-pr`, `needs-delta`, `needs-study` test metadata fields documented, enriched version semantics table
+- **Meta-resources design:** Problem statement, resource taxonomy table, standalone phases rationale, resource-type-specific adaptation tree, engineer journey walkthrough, docs audit status
+- **Platform design:** "What this is NOT" analogy (package registry monorepo)
+- **CONTRIBUTING:** Agent-assisted workflow examples (creating new resource, editing existing skill)
+- **README:** AI resource definition paragraph
+
 ## [0.6.0] - 2026-04-22
 
 ### Added
@@ -67,6 +81,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - **Platform scaffold:** README, CONTRIBUTING, CLAUDE.md, .gitignore
 - **Docs:** `docs/platform-design.md` (Convention-over-Configuration architecture), `docs/skill-spec.md` (skill format specification)
 
+[0.7.0]: https://github.com/crucibledx/forge-skills-starter/releases/tag/v0.7.0
 [0.6.0]: https://github.com/crucibledx/forge-skills-starter/releases/tag/v0.6.0
 [0.5.0]: https://github.com/crucibledx/forge-skills-starter/releases/tag/v0.5.0
 [0.4.0]: https://github.com/crucibledx/forge-skills-starter/releases/tag/v0.4.0

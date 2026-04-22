@@ -63,7 +63,7 @@ The agent reads your approved design and:
 - **Scaffolds** the resource file structure (e.g., `skills/<name>/SKILL.md`, `README.md`)
 - **You review** the scaffold (step titles, frontmatter)
 - **Implements** each step one at a time
-- **You review** the full implementation
+- **You review** each step before the next
 
 ### 4. Test phase (`/test-resource`)
 
@@ -81,7 +81,7 @@ If tests fail → the agent helps you fix and re-test.
 
 Once tests pass:
 
-1. Version bump in frontmatter
+1. Version bump in frontmatter (`version: 0.1.0`)
 2. Platform `CHANGELOG.md` updated
 3. Commit + tag
 4. Push
@@ -113,7 +113,15 @@ You don't have to use `/create-resource`. Each phase works standalone:
 | Rule          | `docs/<name>/design.md`, `rules/<name>.md`                                   |
 | Workflow      | `docs/<name>/design.md`, `workflows/<name>.md`                               |
 
-Plus diagrams in `docs/<name>/` (flow.drawio, etc.).
+Plus diagrams in `docs/<name>/` (flow.drawio, sequence.drawio, etc.).
+
+## Tips
+
+- **Answer all clarifying questions at once** — faster than going back and forth
+- **Be specific about constraints** — language, framework, which specimens to test against
+- **Review the design carefully** — fixing design issues early saves rework in development
+- **Use `--from-scratch`** for simple resources — rules and small utilities don't need a full design phase
+- **Test against multiple specimens** — if your skill supports multiple frameworks, test each one
 
 ## Resuming Work
 
@@ -126,6 +134,45 @@ If you stopped mid-way, you can resume:
 | Design + implementation | `/test-resource <name>`          |
 
 The orchestrator (`/create-resource`) also detects existing work and offers to skip completed phases.
+
+## Example: Creating a skill
+
+```
+> /create-resource "A skill that generates architecture documentation with diagrams"
+
+Agent: Let me ask a few questions...
+  1. What problem? → Missing architecture docs
+  2. Input? → Project source code
+  3. Output? → Architecture docs + diagrams
+  ...
+
+Agent: Classification:
+  Resource type: skill
+  Name: document-architecture
+  Type: orchestrator
+  Language: *
+
+You: Looks good
+
+Agent: Design created at docs/document-architecture/design.md
+       Flow diagram at docs/document-architecture/flow.drawio
+
+You: Approved, let's implement
+
+Agent: Scaffold created: skills/document-architecture/SKILL.md (4 steps)
+       Step 1 — Analyze project structure... ready for review?
+
+You: Looks good, next
+
+... (step by step) ...
+
+Agent: All tests pass. Ready to release?
+
+You: Yes
+
+Agent: ✓ Resource created: /document-architecture
+       Push: git push origin main --follow-tags
+```
 
 ## Related Docs
 
