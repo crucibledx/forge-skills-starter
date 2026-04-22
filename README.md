@@ -128,6 +128,21 @@ The platform builds resources. How you deliver them is flexible:
 
 **Shared** (`skills/`, `rules/`, `workflows/`) → delivered to your team's repos. **Platform** (everything else) → stays here, powers the lifecycle.
 
+## Multi-Team / Monorepo Setup
+
+Need team-scoped resources? The [`example/monorepo`](https://github.com/crucibledx/forge-skills-starter/tree/example/monorepo) branch shows how to organize resources for multiple teams in a single repo:
+
+```
+shared/       # Cross-team resources (every team gets these)
+frontend/     # Frontend team — /review-frontend, /accessibility, react-conventions
+backend/      # Backend team — /review-api, /database-migration, api-conventions
+infra/        # Infra team — /review-terraform, /incident-runbook, terraform-conventions
+```
+
+Each team folder contains a full canonical layout (`skills/`, `rules/`, `workflows/`). With Forge, each team points their source at the repo with a `subdirectory` filter — or uses `include`/`exclude` globs for fine-grained control.
+
+> **See the full example:** [`example/monorepo` branch](https://github.com/crucibledx/forge-skills-starter/tree/example/monorepo)
+
 ## Documentation
 
 | Start here                                                 | Then explore                                           |
