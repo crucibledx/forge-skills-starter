@@ -1,6 +1,14 @@
+<div align="center">
+
 # AI Resources Lifecycle Platform
 
-> Design, develop, test, and deliver AI agent skills, rules, and workflows — in one place.
+**Design, develop, test, and deliver AI agent skills, rules, and workflows — in one place.**
+
+[![Version](https://img.shields.io/badge/version-0.7.1-%23e84d00)](https://github.com/crucibledx/forge-skills-starter/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-%23a0aec0)](LICENSE)
+[![Forge CLI](https://img.shields.io/badge/delivered_by-Forge_CLI-%23ffa940)](https://github.com/crucibledx/forge-cli)
+
+</div>
 
 **Fork this repo.** Build your team's AI resources with a structured lifecycle. Deliver them to any AI tool.
 
@@ -42,6 +50,8 @@ This platform gives AI resources a **full engineering lifecycle** — design, de
 > **Full guide:** [How to Create a Resource](docs/how-to-create-resource.md)
 
 ## How It Works
+
+![Platform Flow](https://github.com/crucibledx/assets/raw/main/platform/diagrams/platform-flow.svg)
 
 ### Convention over configuration
 
@@ -116,6 +126,8 @@ The platform builds resources. How you deliver them is flexible:
 
 ## Repository Structure
 
+![Platform Structure](https://github.com/crucibledx/assets/raw/main/platform/diagrams/platform-structure.svg)
+
 ```
 ├── skills/              # AI skills         ← delivered to team repos
 ├── rules/               # Context rules     ← delivered to team repos
@@ -152,6 +164,16 @@ Each team folder contains a full canonical layout (`skills/`, `rules/`, `workflo
 | [How to Add a Specimen](docs/how-to-add-specimen.md)       | [Meta-Resources Design](docs/meta-resources/design.md) |
 |                                                            | [Full Documentation Index](docs/README.md)             |
 
+## Part of Crucible
+
+The Skills Starter is the content platform of the [Crucible](https://crucibledx.dev) ecosystem. Build resources here, deliver them with [Forge CLI](https://github.com/crucibledx/forge-cli).
+
+![Crucible Ecosystem](https://github.com/crucibledx/assets/raw/main/crucible/diagrams/crucible-ecosystem.svg)
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development workflow and guidelines.
+
+## License
+
+[MIT](LICENSE)

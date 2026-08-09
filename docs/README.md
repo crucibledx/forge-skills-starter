@@ -32,7 +32,6 @@ Design artifacts (decision docs, flow/sequence diagrams) live in `docs/<resource
 
 ## Scripts
 
-| Document                     | Description                                        |
-|------------------------------|----------------------------------------------------|
-| `scripts/export_diagrams.sh` | Batch export all `.drawio` to PNG (Mac/Linux/WSL2) |
-| `scripts/list_specimens.py`  | List specimen and delta branches                   |
+| Document                    | Description                      |
+|-----------------------------|----------------------------------|
+| `scripts/list_specimens.py` | List specimen and delta branches |

@@ -99,9 +99,8 @@ forge-skills-starter/
 ├── skills/                     # Skill definitions (SKILL.md + README.md)
 ├── rules/                      # Shared context rules
 ├── workflows/                  # Shared workflows
-├── docs/                       # Design docs, guides, diagrams
+├── docs/                       # Design docs & guides
 │   ├── meta-resources/         # Orchestrator architecture
-│   ├── diagrams/               # Platform diagrams (.drawio + .png)
 │   ├── how-to-*.md             # Guides
 │   ├── platform-design.md      # Architecture & conventions
 │   └── skill-spec.md           # Skill format specification

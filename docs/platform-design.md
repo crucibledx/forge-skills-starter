@@ -6,13 +6,13 @@
 
 ### Diagrams
 
-**Platform Flow** — the single development flow ([editable](diagrams/platform-flow.drawio)):
+**Platform Flow** — the single development flow ([editable](https://github.com/crucibledx/assets/blob/main/platform/diagrams/platform-flow.drawio)):
 
-![Platform Flow](diagrams/platform-flow.drawio.png)
+![Platform Flow](https://github.com/crucibledx/assets/raw/main/platform/diagrams/platform-flow.svg)
 
-**Convention Map** — repository structure: shared vs platform ([editable](diagrams/convention-map.drawio)):
+**Convention Map** — repository structure: shared vs platform ([editable](https://github.com/crucibledx/assets/blob/main/platform/diagrams/platform-structure.drawio)):
 
-![Convention Map](diagrams/convention-map.drawio.png)
+![Convention Map](https://github.com/crucibledx/assets/raw/main/platform/diagrams/platform-structure.svg)
 
 ---
 
@@ -31,7 +31,7 @@ Inspired by Rails and modern monorepo tooling (Nx, Turborepo) — the directory 
 | Skill      | `skills/<name>/SKILL.md`                   | `/create-resource`, `/test-resource`, Forge |
 | Skill docs | `skills/<name>/README.md`                  | Developers browsing the repo                |
 | Design     | `docs/<resource-name>/design.md`           | `/design-resource`, `/develop-resource`     |
-| Diagrams   | `docs/<resource-name>/*.drawio`            | `/design-resource`, `export_diagrams.sh`    |
+| Diagrams   | `docs/<resource-name>/*.drawio`            | `/design-resource`, draw.io CLI             |
 | Rule       | `rules/<name>.md`                          | `/create-resource`, Forge                   |
 | Workflow   | `workflows/<name>.md`                      | `/create-resource`, Forge                   |
 | Specimen   | orphan branch `specimen/<lang>/<fw>`       | `/test-resource`, `list_specimens.py`       |
