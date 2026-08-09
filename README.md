@@ -51,7 +51,10 @@ This platform gives AI resources a **full engineering lifecycle** — design, de
 
 ## How It Works
 
-![Platform Flow](https://github.com/crucibledx/assets/raw/main/platform/diagrams/platform-flow.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/crucibledx/assets/raw/main/platform/diagrams/dark/platform-flow.svg">
+  <img alt="Platform Flow" src="https://github.com/crucibledx/assets/raw/main/platform/diagrams/light/platform-flow.svg">
+</picture>
 
 ### Convention over configuration
 
@@ -126,7 +129,10 @@ The platform builds resources. How you deliver them is flexible:
 
 ## Repository Structure
 
-![Platform Structure](https://github.com/crucibledx/assets/raw/main/platform/diagrams/platform-structure.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/crucibledx/assets/raw/main/platform/diagrams/dark/platform-structure.svg">
+  <img alt="Platform Structure" src="https://github.com/crucibledx/assets/raw/main/platform/diagrams/light/platform-structure.svg">
+</picture>
 
 ```
 ├── skills/              # AI skills         ← delivered to team repos
@@ -168,7 +174,10 @@ Each team folder contains a full canonical layout (`skills/`, `rules/`, `workflo
 
 The Skills Starter is the content platform of the [Crucible](https://crucibledx.dev) ecosystem. Build resources here, deliver them with [Forge CLI](https://github.com/crucibledx/forge-cli).
 
-![Crucible Ecosystem](https://github.com/crucibledx/assets/raw/main/crucible/diagrams/crucible-ecosystem.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/crucibledx/assets/raw/main/crucible/diagrams/dark/crucible-ecosystem.svg">
+  <img alt="Crucible Ecosystem" src="https://github.com/crucibledx/assets/raw/main/crucible/diagrams/light/crucible-ecosystem.svg">
+</picture>
 
 ## Contributing
 

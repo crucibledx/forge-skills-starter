@@ -8,7 +8,10 @@
 
 **Architecture** — resource taxonomy, meta-resource layers, orchestrator pattern ([editable](https://github.com/crucibledx/assets/blob/main/platform/diagrams/meta-resources-architecture.drawio)):
 
-![Architecture](https://github.com/crucibledx/assets/raw/main/platform/diagrams/meta-resources-architecture.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/crucibledx/assets/raw/main/platform/diagrams/dark/meta-resources-architecture.svg">
+  <img alt="Architecture" src="https://github.com/crucibledx/assets/raw/main/platform/diagrams/light/meta-resources-architecture.svg">
+</picture>
 
 ---
 

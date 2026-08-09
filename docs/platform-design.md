@@ -8,11 +8,17 @@
 
 **Platform Flow** — the single development flow ([editable](https://github.com/crucibledx/assets/blob/main/platform/diagrams/platform-flow.drawio)):
 
-![Platform Flow](https://github.com/crucibledx/assets/raw/main/platform/diagrams/platform-flow.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/crucibledx/assets/raw/main/platform/diagrams/dark/platform-flow.svg">
+  <img alt="Platform Flow" src="https://github.com/crucibledx/assets/raw/main/platform/diagrams/light/platform-flow.svg">
+</picture>
 
 **Convention Map** — repository structure: shared vs platform ([editable](https://github.com/crucibledx/assets/blob/main/platform/diagrams/platform-structure.drawio)):
 
-![Convention Map](https://github.com/crucibledx/assets/raw/main/platform/diagrams/platform-structure.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/crucibledx/assets/raw/main/platform/diagrams/dark/platform-structure.svg">
+  <img alt="Convention Map" src="https://github.com/crucibledx/assets/raw/main/platform/diagrams/light/platform-structure.svg">
+</picture>
 
 ---
 
