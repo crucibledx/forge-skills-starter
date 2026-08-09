@@ -11,7 +11,7 @@ A development lifecycle platform for AI resources (skills, rules, workflows), po
 | Skill      | `skills/<name>/SKILL.md`                   | `/create-resource`, `/test-resource`, Forge   |
 | Skill docs | `skills/<name>/README.md`                  | Developers browsing the repo                  |
 | Design     | `docs/<name>/design.md`                    | `/design-resource`, `/develop-resource`       |
-| Diagrams   | `docs/<name>/*.drawio`                     | `/design-resource`, `export_diagrams.sh`      |
+| Diagrams   | `docs/<name>/*.drawio`                     | `/design-resource`, draw.io CLI               |
 | Rule       | `rules/<name>.md`                          | `/create-resource`, Forge                     |
 | Workflow   | `workflows/<name>.md`                      | `/create-resource`, Forge                     |
 | Specimen   | orphan branch `specimen/<lang>/<fw>`       | `/test-resource`, `scripts/list_specimens.py` |
@@ -45,5 +45,4 @@ type: orchestrator | sub-skill | utility
 ---
 ```
 
-See `docs/skill-spec.md` for full specification.
-See `docs/meta-resources/design.md` for the orchestrator architecture.
+See `docs/skill-spec.md` for full specification. See `docs/meta-resources/design.md` for the orchestrator architecture.

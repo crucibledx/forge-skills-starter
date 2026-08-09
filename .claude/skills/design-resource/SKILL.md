@@ -70,11 +70,7 @@ Create flow diagrams using the `/drawio` skill:
 | Rule          | Skip (rules are simple enough without diagrams)     |
 | Workflow      | `docs/<name>/flow.drawio` (if complex)              |
 
-Export to PNG with embedded XML:
-
-```bash
-scripts/export_diagrams.sh docs/<name>/
-```
+Export to PNG with embedded XML using `/drawio` skill or draw.io CLI.
 
 ### 5. Review gate
 

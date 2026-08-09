@@ -6,9 +6,9 @@
 
 ## Diagrams
 
-**Architecture** — resource taxonomy, meta-resource layers, orchestrator pattern ([editable](architecture.drawio)):
+**Architecture** — resource taxonomy, meta-resource layers, orchestrator pattern ([editable](https://github.com/crucibledx/assets/blob/main/platform/diagrams/meta-resources-architecture.drawio)):
 
-![Architecture](architecture.drawio.png)
+![Architecture](https://github.com/crucibledx/assets/raw/main/platform/diagrams/meta-resources-architecture.svg)
 
 ---
 
@@ -244,10 +244,9 @@ The complete journey from idea to deployed resource:
 
 ### Scripts
 
-| Script                       | Purpose                                |
-|------------------------------|----------------------------------------|
-| `scripts/export_diagrams.sh` | Batch export `.drawio` → `.drawio.png` |
-| `scripts/list_specimens.py`  | List available specimen branches       |
+| Script                      | Purpose                          |
+|-----------------------------|----------------------------------|
+| `scripts/list_specimens.py` | List available specimen branches |
 
 ### Conventions
 
@@ -267,7 +266,7 @@ The entire platform is built on this table:
 | Skill      | `skills/<name>/SKILL.md`                   | `/create-resource`, `/test-resource`, Forge |
 | Skill docs | `skills/<name>/README.md`                  | Developers browsing the repo                |
 | Design     | `docs/<name>/design.md`                    | `/design-resource`, `/develop-resource`     |
-| Diagrams   | `docs/<name>/*.drawio`                     | `/design-resource`, `export_diagrams.sh`    |
+| Diagrams   | `docs/<name>/*.drawio`                     | `/design-resource`, draw.io CLI             |
 | Rule       | `rules/<name>.md`                          | `/create-resource`, Forge                   |
 | Workflow   | `workflows/<name>.md`                      | `/create-resource`, Forge                   |
 | Specimen   | orphan branch `specimen/<lang>/<fw>`       | `/test-resource`, `list_specimens.py`       |
